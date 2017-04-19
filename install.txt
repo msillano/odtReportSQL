@@ -15,5 +15,5 @@ Pre-requisites:
    Demo:
    1) Unzip demo.zip in  www/odtdocument/
    2) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
-   3) Run demo starting fom index.php
+   3) Run demo starting fom odtdocument/index.php
    
