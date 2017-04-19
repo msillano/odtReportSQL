@@ -1,0 +1,19 @@
+Pre-requisites:
+   A WAMP installed.
+
+   Install:
+   1)  Download all files.
+   2)  Create a web dir (e.g. www/odtdocument/ ).
+   3)  Copy all files in www/odtdocument/, www/odtdocument/lib, www/odtdocument/templates.
+   4)  Using phpMyAdmin, create a database (e.g. odtdbase).
+   5)  Import the SQL files: odt_queries.sql. odt_reports.sql in odtdbase to create tables.
+   
+   Setup:
+   6)  Copy language_xx.php to language.php.
+   7)  Edit and updates: config.php, language.php and odtphpsql.php (see TODO in files).
+   
+   Demo:
+   1) Unzip demo.zip in  www/odtdocument/
+   2) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
+   3) Run demo starting fom index.php
+   
