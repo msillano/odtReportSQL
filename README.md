@@ -13,9 +13,9 @@ Features:
 *           <?php  echo getReportMenu('this_page'); ?>
 -  This system is DB driven, using 2 tables to define all templates substitutions and UI
 -  Scalable:
---      odtphp.php defines template substitution engine
---      odtphpsql.php adds substitution queries definitions in DB
---      odtReportSQL.pho adds an UI defined in DB
+*      odtphp.php defines template substitution engine
+*      odtphpsql.php adds substitution queries definitions in DB
+*      odtReportSQL.pho adds an UI defined in DB
 -  Any document as an URL definition.
 -  To add a new document is only required to update DB.
 -  The resulting documents can be open using OpenOffice and saved in almost any format.
