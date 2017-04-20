@@ -8,18 +8,18 @@ Features:
 *       Simple substitution based on couples #field#/value.
 *       Blocks and nested blocks duplication (any deep) or deletion.
 *       Pictures substitution.
--  The HTML User Inteface is build by System and can be easy added at existing php applications. Add 2 lines ( see odtReportSQL-test.php)
+-  The HTML User Inteface is build by System and can be easy added at an existing php application. Add 2 lines ( see odtReportSQL-test.php)
 *           <?php  include('odtReportSQL.php'); ?>
 *           <?php  echo getReportMenu('this_page'); ?>
 -  This system is DB driven, using 2 tables to define all templates substitutions and UI
 -  Scalable:
 *      odtphp.php defines template substitution engine
 *      odtphpsql.php adds substitution queries definitions in DB
-*      odtReportSQL.pho adds an UI defined in DB
+*      odtReportSQL.php adds an UI defined in DB
 -  Any document as an URL definition.
 -  To add a new document is only required to update DB.
 -  The resulting documents can be open using OpenOffice and saved in almost any format.
  
-This system was developped to be used with a school examinations management software, with more than 25 different documentes (letters, certificates, ufficial records, grade tables, notices...) 
+This system was developped to be used with a school examinations management software, with more than 25 different documents (letters, certificates, ufficial records, grade tables, notices...) 
 
 see install.txt.
