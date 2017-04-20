@@ -20,6 +20,6 @@ Features:
 -  To add a new document is only required to update DB.
 -  The resulting documents can be open using OpenOffice and saved in almost any format.
  
-This system was developped to be used with a school examinations management software, with more than 25 different documents (letters, certificates, ufficial records, grade tables, notices...) 
+This system was developped to be used with a school examinations management software, with more than 25 different documents (letters, certificates, ufficial records, grade tables, notices...) from 1 to 68 pages.
 
 see install.txt.
