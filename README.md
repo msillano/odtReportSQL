@@ -1,6 +1,6 @@
 # odtReportSQL
 This scalable library defines a complete reports/documents system  for php-mySQL applications.
-
+![demo screenshot](./demo/img/2017-04-19.210908.shot.png)
 Features:
 -  Based on templates created using OpenOffice (.odt files)
 -  Templates can be of any size (A4, A3...) and multipage.
