@@ -17,7 +17,7 @@ Features:
 *      odtphpsql.php adds substitution queries definitions in DB
 *      odtReportSQL.php adds an UI defined in DB
 -  Any document as an URL definition.
--  To add a new document is only required to update DB.
+-  To add a new document is only required to make the new template and to update the DB.
 -  The resulting documents can be open using OpenOffice and saved in almost any format.
  
 This system was developped to be used with a school examinations management software, with more than 25 different documents (letters, certificates, ufficial records, grade tables, notices...) from 1 to 68 pages.
