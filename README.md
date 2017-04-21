@@ -23,3 +23,6 @@ Features:
 This system was developped to be used with a school examinations management software, with more than 25 different documents (letters, certificates, ufficial records, grade tables, notices...) from 1 to 68 pages.
 
 see install.txt.
+
+TODO
+More translations (files language_xx.php).
