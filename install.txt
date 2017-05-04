@@ -17,4 +17,6 @@ Pre-requisites:
    2) Unzip demo.zip in  www/odtdocument/
    3) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
    4) Run demo starting fom odtdocument/index.php
+   5) You can see demo screenshot here: https://github.com/msillano/odtReportSQL or  here: 
+ https://www.phpclasses.org/package/10276-PHP-Generate-report-from-MySQL-data-using-ODT-template.html#screenshots
    
