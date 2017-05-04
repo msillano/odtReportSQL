@@ -13,7 +13,8 @@ Pre-requisites:
    7)  Edit and updates: config.php, language.php and odtphpsql.php (see TODO in files).
    
    Demo:
-   1) Unzip demo.zip in  www/odtdocument/
-   2) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
-   3) Run demo starting fom odtdocument/index.php
+   1) download demo.zip (from https://github.com/msillano/odtReportSQL/tree/master/demo )
+   2) Unzip demo.zip in  www/odtdocument/
+   3) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
+   4) Run demo starting fom odtdocument/index.php
    
