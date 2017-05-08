@@ -29,4 +29,5 @@ This system was developped to be used with a school examinations management soft
 see install.txt.
 
 TODO
-More translations (files language_xx.php).
+- More translations (files language_xx.php).
+- More DB Interfaces (file commonSQL.php)
