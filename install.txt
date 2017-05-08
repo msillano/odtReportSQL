@@ -7,6 +7,8 @@ Pre-requisites:
    3)  Copy all files in www/odtdocument/, www/odtdocument/lib, www/odtdocument/templates.
    4)  Using phpMyAdmin, create a database (e.g. odtdbase).
    5)  Import the SQL files: odt_queries.sql. odt_reports.sql in odtdbase to create tables.
+       (In production,  you must add it to your application: 'www/odtdocument' is the application 
+        web dir, and DB 'odtdbase' is the application main DB)
    
    Setup:
    6)  Copy language_xx.php to language.php.
@@ -17,6 +19,6 @@ Pre-requisites:
    2) Unzip demo.zip in  www/odtdocument/
    3) Import the SQL file: odtphp.sql on odtdbase to create and populate all tables for demo.
    4) Run demo starting fom odtdocument/index.php
-   5) You can see demo screenshot here: https://github.com/msillano/odtReportSQL or  here: 
- https://www.phpclasses.org/package/10276-PHP-Generate-report-from-MySQL-data-using-ODT-template.html#screenshots
+   5) You can see demo screenshot here: https://github.com/msillano/odtReportSQL or here: 
+https://www.phpclasses.org/package/10276-PHP-Generate-report-from-MySQL-data-using-ODT-template.html#view_files/files/demo/img
    
