@@ -30,4 +30,7 @@ see install.txt.
 
 TODO
 - More translations (files language_xx.php).
-- More DB Interfaces (file commonSQL.php)
+- More DB Interfaces (file commonSQL.php). Done: see common_pdo.php.
+
+UPDATE
+ - 2020-02-09  the common_pdo.php file replaces the obsolete commonSQL.php  file
