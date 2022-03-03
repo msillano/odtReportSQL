@@ -36,8 +36,8 @@ UPDATE
  - 2020-02-09  the common_pdo.php file replaces the obsolete commonSQL.php  file
 
  - 2022-02-02 Used this library in the new project: tuyaDaemon.toolokit (https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON.toolkit) 
- - Examples of result pages (pdf) are in the ![wiki](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf)
- - Tested on:
+   - Examples of result pages (pdf) are in the ![wiki](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf)
+   - Tested on:
       - Windows 11, php 8.1.2, MariaDB 10.4.22
       - Android 11, php 2.1,  MySql 5.1
       
