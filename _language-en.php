@@ -16,21 +16,20 @@
      onclick="history.go(-1); return false;"> &lt;&lt; back </a>&nbsp;</center><hr>';
   $Translation['saved files warning']='The files (like  <i>%s</i>) are saved on sever<br> in document dir: <b>%s</b><br><br><hr><center><a
      href="" onclick="history.go(-1); return false;"> &lt;&lt; back </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a 
-     href="./devicedata/" > to default document dir &gt;&gt;</a></center><hr>';
+     href="./reports/" > to default document dir &gt;&gt;</a></center><hr>';
   $Translation['key definition error']="<BR>ERROR in key (%s = '%s') value!<BR>\n";
   $Translation['click to go']='Click button to do document  &gt;&gt;';
  // ------------ arrays and functions
  //TODO:  set the local timezone (see http://php.net/manual/en/timezones.php)
-   function set_local(){
+ function set_local(){
         date_default_timezone_set ('Europe/London');
    }
   // to handle some special chars on XML
-   function filter($value){  	 				 
-            if ($value == '') return '';   
+   function filter($value){  	 				  
 			if ( !((strpos($value,'&amp;') === false)&
 			       (strpos($value,'&lt;') === false)&
 				     (strpos($value,'&#') === false)) ) return $value;
-		 $ret = $value;
+		  $ret = $value;
 			$ret = str_replace("&","&amp;",$ret);
 			$ret = str_replace("<","&lt;",$ret);   
  //TODO update this (if required)
