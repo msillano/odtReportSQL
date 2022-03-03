@@ -35,11 +35,11 @@ TODO
 UPDATE
  - 2020-02-09  the common_pdo.php file replaces the obsolete commonSQL.php  file
 
- - 2022-02-02 Used this library in the new project: tuyaDaemon.toolokit (https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON.toolkit) 
+ - 2022-02-02 Used this library in the new project: tuyaDaemon.toolokit (https://github.com/msillano/tuyaDAEMON/tree/main/tuyaDAEMON.toolkit): minor bugs correction and update to php 8.
    - Examples of result pages (pdf) are in the ![wiki](https://github.com/msillano/tuyaDAEMON/blob/main/devices/ACmeter/device_ACmeter.pdf)
    - Tested on:
       - Windows 11, php 8.1.2, MariaDB 10.4.22
-      - Android 11, php 2.1,  MySql 5.1
+      - Android 11, php 4.1,  MySql 5.1
       
- The php 8 use requires also an update to pclzip.lib (here as  "lib\pclzip.2.8.4.lib.php").
+ The php 8 use requires also an update of pclzip.lib (here as  "lib\pclzip.2.8.4.lib.php").
  
