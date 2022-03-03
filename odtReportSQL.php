@@ -1,7 +1,11 @@
 <?php
 
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 include(dirname(__FILE__) . "/odtphpsql.php");
-require_once dirname(__FILE__) . "/language.php";
+require_once dirname(__FILE__) . "/lib/language.php";
 
 /**
  * This scalable system defines a complete reports/documents system
@@ -80,7 +84,7 @@ require_once dirname(__FILE__) . "/language.php";
  *        odtphp.php
  *        odtphpsql.php
  *        commonSQL.php
- *        config.php
+ *        config.php    (obsolete)
  *        language.php
  *        \lib\pclzip.lib.php 	
  *        \templates\reportSQL.html
@@ -88,6 +92,7 @@ require_once dirname(__FILE__) . "/language.php";
  *
  *  license LGPL 
  *  ver 1-04 10/10/2016 added language internalization
+ *  ver 1-05 24/01/2021 minor bugs
  *  author Marco Sillano  (marco.sillano@gmail.com)
  */
 /**																									 
@@ -167,16 +172,16 @@ require_once dirname(__FILE__) . "/language.php";
  *                               
  *	 key2type    TEXT  10: see key1
  *	 key2name    TEXT  60: see key1
- *   key2value   TEXT 500: see key1
+ *  key2value   TEXT 500: see key1
  *	 key3type    TEXT  10: see key1 (not foreach)
  *	 key3name    TEXT  60: see key1
- *   key3value   TEXT 500: see key1
+ *  key3value   TEXT 500: see key1
  *	 key4type    TEXT  10: see key1 (not foreach)
  *	 key4name    TEXT  60: see key1
- *   key4value   TEXT 500: see key1
+ *  key4value   TEXT 500: see key1
  *	 key5type    TEXT  10: see key1 (not foreach)
  *	 key5name    TEXT  60: see key1
- *   key5value   TEXT 500: see key1		 
+ *  key5value   TEXT 500: see key1		 
  *   
  *    note: key1...key5 can also be set on calling getReportMenu():	this will generate
  *          an hidden field, and the definition in odt_reports table is discarted.
@@ -188,6 +193,7 @@ require_once dirname(__FILE__) . "/language.php";
 
 /*
 =========== strftime format date codes
+// new : https://www.php.net/manual/en/datetime.format.php
 Day --- ---
 %a	An abbreviated textual representation of the day	Sun through Sat
 %A	A full textual representation of the day	Sunday through Saturday
@@ -278,7 +284,9 @@ function doTestTemplate($reportName = NULL)
     $baseDir  = dirname(__FILE__);
     $template = dirname(__FILE__) . "/templates/$reportName.odt";
     ob_start();
-    $odtsql = new Odtphpsql($template);
+//    $odtsql = new Odtphpsql($template);
+    $odtsql = new Odtphpsql;
+    $odtsql->Odtphpsql($template);
     print('<br><b>Template file: <i>' . $template . '</i>:</b><br>');
     print('<div> FIELDS: </div><pre>');
     print_r($odtsql->getFieldNames());
@@ -302,7 +310,7 @@ function doTestTemplate($reportName = NULL)
 
 function getReportMenu($page, $key1 = NULL, $key2 = NULL, $key3 = NULL, $key4 = NULL, $key5 = NULL)
 { 
-    $HTMLtemplate   = './templates/reportSQL.html';
+    $HTMLtemplate   = '/templates/reportSQL.html';
     $query0         = "SELECT * FROM odt_reports WHERE page = '$page' ORDER BY position";
     $HTMLfragment   = '';
     $allPageReports = sqlArrayTot($query0);
@@ -341,6 +349,7 @@ function doReport()
     //  $thisReport[]]:  array wit report data (= record in odt_report)        
     //  $baseDir   :  remote application base dir     
     $baseDir = dirname(__FILE__);
+	$baseDir = str_replace('\\','/', $baseDir);  // to get all dir using allway '/' as separator.
     //      
     // ===========   sets key1...kek5
     // format date			
@@ -413,7 +422,8 @@ function doReport()
                 $outputFile = eval($thisReport['outfilepath']);
             $outputName = basename($outputFile, ".odt");
             // builds document       
-            $odtsql     = new Odtphpsql($template);
+            $odtsql     = new Odtphpsql;
+            $odtsql -> Odtphpsql($template);
             // sets keyX values	 
             if (isset($key1))
                 $odtsql->assign("key1", $key1); // basic field mapping	   
@@ -494,7 +504,8 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
         $rows++;
     }
 // macro subst    
-    $query = str_replace('#key1#', $key1, $rep['key2value']);
+  if( ($key1) && ($rep['key2value'])){
+      $query = str_replace('#key1#', $key1, $rep['key2value']);
 //
     if ($rep['key2type'] == 'foreach') {
         $model  = modelFields($model, 'key2', $rep['key2type'], $query);
@@ -507,7 +518,9 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
         $fragm2 = str_replace('#fieldName#', $rep['key2name'], $fragm2);
         $rows++;
     }
+  }
  //   
+if( ($key1) && ($rep['key3value'])) {
     $query = str_replace('#key1#', $key1, $rep['key3value']);
     if ($key2)
         $query = str_replace('#key2#', $key2, $query);
@@ -521,7 +534,9 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
         $fragm3 = str_replace('#fieldName#', $rep['key3name'], $fragm3);
         $rows++;
     }
+}
     
+  if( ($key1) && ($rep['key4value'])){
     $query = str_replace('#key1#', $key1, $rep['key4value']);
     if ($key2)
         $query = str_replace('#key2#', $key2, $query);
@@ -539,7 +554,9 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
         $fragm4 = str_replace('#fieldName#', $rep['key4name'], $fragm4);
         $rows++;
     }
+  }
     
+ if( ($key1) && ($rep['key5value'])) {
     $query = str_replace('#key1#', $key1, $rep['key5value']);
     if ($key2)
         $query = str_replace('#key2#', $key2, $query);
@@ -558,6 +575,7 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
         $fragm5 = str_replace('#fieldName#', $rep['key5name'], $fragm5);
         $rows++;
     }
+ }
     // dummy row 				   
     if ($rows == 1) {
         $fieldBlock = str_replace('<!-- fields -->', $Translation['click to go'], $fieldBlock);
@@ -573,6 +591,7 @@ function generateHTML($model, $rep, $key1, $key2, $key3, $key4, $key5)
 
 function putError($model, $value, $badKey)
 {
+global $Translation;  
     return str_replace('<!-- fields -->', sprintf($Translation['key definition error'], $badKey, $value) . '<!-- fields -->', $model);
 }
 

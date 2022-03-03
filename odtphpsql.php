@@ -1,8 +1,13 @@
 <?php
 
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 include(dirname(__FILE__)."/odtphp.php");	
-include(dirname(__FILE__)."/commonSQL.php");	
-require_once dirname(__FILE__)."/language.php";
+require_once(dirname(__FILE__)."/lib/commonSQL.php");	
+require_once dirname(__FILE__)."/lib/language.php";
+
 /**
 * This class defines a simple "ODT document system" for mySQL, using '.odt' templates and
 * producing documents and reports including text, tables, images, editables and exportables
@@ -91,7 +96,7 @@ require_once dirname(__FILE__)."/language.php";
 *  dependecies:
 *        odtphp.php
 *        commonSQL.php
-*        config.php
+*        config.php  (obsolete))
 *        language.php
 *        lib/pclzip.lib.php 				   
 *
@@ -99,6 +104,7 @@ require_once dirname(__FILE__)."/language.php";
 *  ver 1-02 30/05/2012 debug (m.s.)
 *  ver 1-03 02/06/2014 updated regex substitutions (m.s.)
 *  ver 1-04 10/10/2016 added language internalization (m.s.)
+*  ver 1-05 24/01/2021 minor bugs(m.s.)
 *  
 *  license LGPL 
 *  author Marco Sillano  (marco.sillano@gmail.com)
@@ -113,14 +119,17 @@ class Odtphpsql extends Odtphp{
 
 public function Odtphpsql($template){	
  global $month;
-		    $this->Odtphp($template);        		
+		 $this->Odtphp($template);        		
 // TODO update local in language.php        
         set_local();
 // pre-defined fields, application dependent: date, version, user etc...	
 // TODO update this (optional) to get required date/time 
-        $this->assign("today", strftime ("%d")." ".$month[intval(strftime('%m'))]." ".strftime ("%Y")); // basic field mapping	 '12 April 2017'  
-        $this->assign("date",  strftime ("%x"));   // basic field mapping	  '04/12/17' (see odtReportSQL start comment for strftime codes)
-        $this->assign("now",   strftime ("%X"));   // basic field mapping	  '14:03:47'
+//        $this->assign("today", strftime ("%d")." ".$month[intval(strftime('%m'))]." ".strftime ("%Y")); // basic field mapping	 '12 April 2017'  
+          $this->assign("today", date_format( date_create(), "j F Y"));
+//        $this->assign("date",  strftime ("%x"));   // basic field mapping	  '04/12/17' (see odtReportSQL start comment for strftime codes)
+          $this->assign("date",  date_format( date_create(), "d/m/Y"));
+//        $this->assign("now",   strftime ("%X"));   // basic field mapping	  '14:03:47'
+          $this->assign("now",   date_format( date_create(), "H:i:s"));
 // TODO update this (optional) to get more pre-defined fields:
 //      $this->assign("user", 'Marco Sillano');   // basic field mapping	          
         
