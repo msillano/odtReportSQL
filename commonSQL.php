@@ -1,119 +1,121 @@
 <?php	  
-	
-// ====================  GENERAL DB access for odtphp
-// here all SQL functions
-// implementation using mysql_xxxx 
-//  license LGPL 
-
-function sql($statment){
-// print($statment.'<BR>');
+// ====================  server access	(localhost / production)
+// +++++++++  CHANGE HERE application globals:
+//	$weburl ='http://sillano.hopto.org:8880/bridge/'; // example: internet public using no_ip.org
+// 	$weburl ='http://192.168.1.55:88/www/bridge/' ;   // example: local net. wifi
+//  $weburl ='http://localhost:88/bridge/';           // example: local server, debug
+  
+//  application password (difference between guest/user)	
+//  $appPass = '44b8e497c5f15d970d7346d39cd52a16';  // example: 'giobridge'  
+//  to change $appPass: 
+//  echo	   md5(trim( 'the_password'));
+// ====================  GENERAL PDO-MYSQL
+/*
+Use $parameters as couples [key ':name' => value 'a_value']
+to protect from 'injection attack' in user-defined values (optional).
+Use only $statment if safe (not from user or cheked values). 
+*/
+ 
+function sql($statment, $parameters = array()){
+$dbServer   = 'localhost';       // default
+  // $dbServer   = '192.168.1.19';       
+	$dbDatabase = 'tuyathome';          // example
+// +++++++++  CHANGE HERE MySql values:
+	$dbUsername = 'root';            // example: localhost debug
+	$dbPassword = '';		         // example: localhost debug
+//	$dbPassword = 'MySecret88';      // example: production
+  
+  
 //====================================================    
-	static $connected=false;
-    // connection data
-  include(dirname(__FILE__)."/config.php");	
-
-	if(!$connected){
-		/****** Connect to MySQL ******/
-		if(!extension_loaded('mysql')){
-			echo "<div class=error>ERROR: PHP is not configured to connect to MySQL on this machine.
-             Please see <a href=http://www.php.net/manual/en/ref.mysql.php>this page</a> for help 
-             on how to configure MySQL.</div>";
+	
+ static $pdo = NULL;
+  
+	if(!$pdo){
+		/****** Connect to MySQL via PDO ******/
+		if(!extension_loaded('pdo_mysql')){
+			echo "<div class=error>INTERNAL ERROR: PHP is not configured to connect to MySQL via PDO on this machine.
+             Please see <a href=https://www.php.net/manual/en/pdo.installation.php>this page</a> for help 
+             on how to configure php.</div>";
 		    exit;
 		}
-
-		if(!mysql_connect($dbServer, $dbUsername, $dbPassword)){
-		  echo "<div class=error>";
-			echo  'ERROR: Errore di connessione <br />'.mysql_error();;
-			echo "</div>";
-	        exit;
-			}
-
-		/****** Connection Charset ********/
-		@mysql_query("SET NAMES 'utf8'");
-
-		/****** Select DB ********/
-		if(!mysql_select_db($dbDatabase)){
-		  echo "<div class=error>";
-			echo  'ERROR: Errore in select. DB <br />'.mysql_error();
-			echo "</div>";
-			exit;
-		}
-		$connected=true;
-	 } // ends if not connected
-
-	if(!$result = @mysql_query($statment)){
-	    echo "<div class=Error>";
-			echo  "ERROR: Query error in  '$statment' <br />".mysql_error();
-			echo "</div>";
-			exit;
-		}
-	return $result;
+try {
+      $pdo = new PDO( "mysql: host=$dbServer;dbname=$dbDatabase;charset=utf8", $dbUsername, $dbPassword );
+      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+     } catch (PDOException $e) {
+      echo '<div class=error>INTERNAL ERROR:  Error in connection <br />'. $e->getMessage().'</div>';
+		  exit;
+	     }
+  } // ends $pdo == false
+  
+  try {
+       $query = $pdo->prepare($statment);
+       $query->execute($parameters);
+      } catch (PDOException $e) {
+      echo '<div class=error>INTERNAL ERROR: Query error  <br />'. $e->getMessage()." <br> in \"$statment\"</div>";
+  		exit;
+	   }
+ // $pdo = NULL;  // closed at page end
+	return $query;
 }
 
-// ================================== sql to arrays	 
- 
 // return only a  value
-function sqlValue($query) {
-  $result =  sql($query);
-  $row = mysql_fetch_row($result);	   
-  mysql_free_result ($result );
+function sqlValue($query, $parameters = array()) {
+  $result =  sql($query, $parameters);
+  $row =$result->fetch();	   
+  $result = NULL;
   return $row[0];
 }
 
 // return an array of values: array[]=row[0]
-function sqlArray($query) {
-  $result =  sql($query);
-  $dats = array();
-  while( $row = mysql_fetch_row($result)){
-      $dats[] = $row[0];
-  }
-  mysql_free_result ($result );
+function sqlArray($query, $parameters = array()) {
+  $result =  sql($query, $parameters);
+  $dats = $result->fetchAll(PDO::FETCH_COLUMN, 0);
+  $result = NULL;
   return $dats;
 }
 			
-/*
- *	low-level DB read using SQL.
- *  return a rows array: array[] = (row(0), row(1), row(2)...)
- *  note: in queries are allowed fields (#field#) replaced by actual values in $this->assigned_field
- */	 
- 
-function sqlArrayTot($query){	   
-	   $r=sql($query );			        
+function sqlArrayTot($query, $parameters = array()){	   
+	   $result=sql($query, $parameters );			        
 	   $arrayData= array();
-     while ( $sub = mysql_fetch_array($r)) {	  
+       while ( $sub = $result->fetch()) {	  
 					array_push($arrayData, $sub);  
  					}			
-     mysql_free_result ($r);          
-	   return $arrayData ;	   
+   $result = NULL;
+   return $arrayData ;	   
  }
 
-
-// return an array of values: array[] = row[0]
-
-function sqlRecord($query) {
-  $result =  sql($query);
-  $dats =  mysql_fetch_array($result);
-  mysql_free_result ($result );
+// return the full array of records
+function sqlRecord($query, $parameters = array()) {
+  $result =  sql($query, $parameters);
+  $dats =  $result->fetch();
+  $result = NULL;
   return $dats;
 }
 
-
-// return an associative lookup: array[row[0]]=row[1]
-function sqlLookup($query) {
-  $result =  sql($query);
+// return an associative lookup: array[row[0]]=row[1] or array[row[0]]=row[0]
+function sqlLookup($query, $parameters = array()) {
+  $result =  sql($query, $parameters);  
   $dats = array();
-  while( $row = mysql_fetch_row($result)){
-      $dats[$row[0]] = $row[1];
+  while( $row = $result->fetch()){
+  // dadded: only one column, duplicated
+      if (isset($row[1]))
+         $dats[$row[0]] = $row[1];
+      else  
+         $dats[$row[0]] = $row[0];
   }
-  mysql_free_result ($result );
-  return $dats;
+   $result = NULL;
+   return $dats;
 }    
  
-// for combo input, options from a query (id, value)
+ // ================================== ENDS GENERAL PDO-MYSQL
+ 
+ //=========== some mysql-HTML utilities:
+// per combo input, options da una query (id, value)
 function optionsList($query, $selected = -1){     		
      $options = '';
      $ops = sqlLookup($query);    
-     while (list($chiave, $valore) = each($ops)) {   
+//     while (list($chiave, $valore) = each($ops)) {   
+     foreach($ops as $chiave=>$valore) {
         $options .= "<option value='$chiave' ".($chiave == $selected ? ' selected = "selected"':'')." >$valore</option>\n";
      }
      return $options;
@@ -128,22 +130,35 @@ function optionsNList($from, $to, $selected){
      return $options;
 }        
   
-// per checklist, da una query (id, value, list di chiavi|true|false)                      
-function checkList($query,$name,$checked){     
+// per checklist, da una query (values) id = 0,1,2.. auto
+// oppure una list statica of values:  ['first', 'second']; 
+// $checked array of values: ['second']  or global   true|false         
+function checkList($query,$name,$checked, $sep = '<br />'){     
      $check = '';
-     $ops = sqlLookup($query);   
+     if(  is_array( $query) ){
+       $ops = $query;
+      }
+     else
+       $ops = sqlLookup($query);   
+   
      $i = 1; 
-     while (list($chiave, $valore) = each($ops)) {
-        if (  is_array($checked )){
-        $check .= "<input type='checkbox' name='$name".$i++."' value='$chiave' ".(
-        array_search($chiave,$checked)!== false ?"checked='checked'":'')." />$valore<br />"; 
+    //  while (list($chiave, $valore) = each($ops)) {
+       foreach($ops as $chiave=>$valore) {
+      if (  is_array($checked )){
+        $check .= "<input type='checkbox' name='$name".$i++."' value='$valore' ".(
+        array_search($valore,$checked)!== false ?"checked='checked'":'')." />$valore $sep"; 
          } else {
-        $check .= "<input type='checkbox' name='$name".$i++."' value='$chiave' ".($checked?"checked='checked'":'')." />$valore<br />"; 
+        $check .= "<input type='checkbox' name='$name".$i++."' value='$valore' ".($checked?"checked='checked'":'')." />$valore $sep"; 
          } 
      }
      return $check;
 }     
    
+   
+ function StyleSheet(){
+	return '<link rel="stylesheet" type="text/css" href="./css/style.css">';
+}
+
 // per redirect ad una nuova pagina da php  
 function movePage($num,$url){
    static $http = array (
