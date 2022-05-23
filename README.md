@@ -39,7 +39,7 @@ TODO
    - The "LibreOffice/7.3.0.3$Windows_x86 LibreOffice_project/0f246aa12d0eee4a0f7adcefbf7c878fc2238db3" don't works.
   
   Workaround: This affect only template setup, not the user documents creation. 
-  Use allway same (old) version of OpenOffice to build and update your Templates.
+  Use allway same (old) version of OpenOffice to build and update your Templates, e.g. [https://downloads.sourceforge.net/project/openofficeorg.mirror/4.1.8/binaries/it/Apache_OpenOffice_4.1.8_Win_x86_install_it.exe](https://downloads.sourceforge.net/project/openofficeorg.mirror/4.1.8/binaries/it/Apache_OpenOffice_4.1.8_Win_x86_install_it.exe)
   
 - More translations (files language_xx.php).
 - More DB Interfaces (file commonSQL.php). Done: see common_pdo.php.
