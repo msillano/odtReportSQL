@@ -31,10 +31,15 @@ see install.txt.
 
 TODO
 - Templates issue
-  Description: The new document is build, but you get an error message openning it: it is inusable.
+
+  Description: The new document is build, but you get an error openning it: it is inusable.
+  
   Cause: The Template is sensible to the LibreOffice/OpenOffice version used.
-  The "OpenOffice/4.1.8$Win32 OpenOffice.org_project/418m3$Build-9803"  works without probems
-  The "LibreOffice/7.3.0.3$Windows_x86 LibreOffice_project/0f246aa12d0eee4a0f7adcefbf7c878fc2238db3" don't works.
+   - The "OpenOffice/4.1.8$Win32 OpenOffice.org_project/418m3$Build-9803"  works without probems
+   - The "LibreOffice/7.3.0.3$Windows_x86 LibreOffice_project/0f246aa12d0eee4a0f7adcefbf7c878fc2238db3" don't works.
+  
+  Workaround: This affect only template setup, not the user documents creation. 
+  Use allway same (old) version of OpenOffice to build and update your Templates.
   
 - More translations (files language_xx.php).
 - More DB Interfaces (file commonSQL.php). Done: see common_pdo.php.
