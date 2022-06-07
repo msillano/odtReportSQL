@@ -29,7 +29,7 @@ This system was developped to be used with a school examinations management soft
 see install.txt.
 
 
-TODO
+### TODO
 - Templates issue
 
   Description: The new document is build, but you get an error openning it: it is inusable.
